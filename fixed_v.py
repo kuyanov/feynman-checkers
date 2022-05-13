@@ -6,7 +6,7 @@ from common import calc_p
 from calc_layer import calc_layer
 
 
-def plot_fixed_v(min_layer, max_layer, layer_step, v):
+def plot_p_fixed_v(min_layer, max_layer, layer_step, v):
     ts = np.arange(min_layer, max_layer + 1, layer_step)
     ys = []
     for t in ts:
@@ -21,8 +21,22 @@ def plot_fixed_v(min_layer, max_layer, layer_step, v):
     plt.xlabel('t')
 
 
+def plot_a1a2_fixed_v(min_layer, max_layer, layer_step, v):
+    xs = []
+    ys = []
+    for t in range(min_layer, max_layer + 1, layer_step):
+        x = int(round(t + v * t) / 2) * 2
+        a1, a2 = calc_layer(t)
+        xs.append(a1[x] * t ** 0.5)
+        ys.append(a2[x] * t ** 0.5)
+    plt.plot(xs, ys, 'o', markersize=1, label='(sqrt(t) * a1, sqrt(t) * a2)')
+    plt.legend()
+    plt.xlabel('a1')
+    plt.ylabel('a2')
+
+
 if __name__ == '__main__':
-    # plot_fixed_v(0, 30000, 6, 1 / 3 ** 0.5)
-    # plot_fixed_v(0, 30000, 6, 1 / 3 ** 0.5 - 0.005)
-    plot_fixed_v(0, 10000, 1, 1 / 3 ** 0.5)
+    # plot_p_fixed_v(0, 10000, 1, 1 / 3 ** 0.5)
+    # plot_p_fixed_v(0, 10000, 1, 0.624)
+    plot_a1a2_fixed_v(8000, 10000, 1, 1 / 5 ** 0.5)
     plt.show()
